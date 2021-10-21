@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { Layout } from 'components/Layout'
 
 const Home: FC<{}> = (): JSX.Element => {
-
     return (
         <div>
             <Head>

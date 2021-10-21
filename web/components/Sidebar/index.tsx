@@ -9,12 +9,17 @@ import { SidebarListTitle } from 'components/SidebarListTitle'
 export const Sidebar: React.FC<{}> = (): JSX.Element => {
     const router = useRouter();
     const [isWrapped, setIsWrapped] = React.useState<boolean>(false);
+    const [lists, setLists] = React.useState([]);
+
+    React.useEffect(() => {
+              setLists(JSON.parse(localStorage.lists));
+    }, [])
 
     const renderExistedLists = React.useMemo(() => {
-        return data.lists.map((list) => {
-            return <SidebarListTitle title={list.name} id={list.id} isSelected={data.selectedList?.id == list.id} key={`list-titile-${list.id}`} />
+        return lists?.map((list) => {
+            return <SidebarListTitle title={list.Name} id={list.Id} isSelected={data.selectedList?.id == list.id} key={`list-titile-${list.Id}`} />
         });
-    }, [data]);
+    }, [lists]);
 
     return (
         <div className={classNames("h-screen bg-yellow-300", { "w-2/12": !isWrapped, "w-1/36": isWrapped })}>
