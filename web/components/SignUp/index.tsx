@@ -1,6 +1,8 @@
 import React, { FC } from 'react'
 import { useRouter } from 'next/dist/client/router'
 import { instance as axios } from 'helpers/axios';
+import { postSignup } from 'helpers/axiosRequests';
+
 export const SignUp: FC<{}> = (): JSX.Element => {
     const router = useRouter();
     const [email, setEmail] = React.useState<string>('')
@@ -12,20 +14,16 @@ export const SignUp: FC<{}> = (): JSX.Element => {
             alert("Passwords are different, try again");
             return;
         }
-        axios().post(
-            '/user/signup',
-            { email: email, password: password }
-        )
-            .then((r: any) => {
-                router.push('/signin')
-            })
-            .catch((e: any) => {
-                if (e.response)
-                    alert(e.response.data)
-                else
-                    console.log(e);
-            })
+        postSignup(email, password, router);
     }, [email, password, confirmPassword]);
+
+    React.useEffect(() => {
+        //TODO remove it
+        if (localStorage.token && localStorage.token != ''){
+            router.push('/lists')
+        }
+    }, [])
+
     return (
         <div className="h-1/3 w-1/4 bg-white z-20 m-auto shadow-md flex flex-col p-10">
             <div className="flex">

@@ -31,6 +31,7 @@ type Task struct {
 type UserRepository interface {
 	Add(string, User) error
 	Get(string) (User, error)
+	Update(string, User) error
 }
 
 type InMemoryUserStorage struct {
@@ -56,6 +57,7 @@ func NewInMemoryUserStorage() *InMemoryUserStorage {
 						Status:      "Open",
 					},
 				},
+				TaskCounter: 1,
 			},
 			3: {
 				Id:   3,
@@ -74,8 +76,10 @@ func NewInMemoryUserStorage() *InMemoryUserStorage {
 						Status:      "Open",
 					},
 				},
+				TaskCounter: 3,
 			},
 		},
+		ListCounter: 4,
 	}
 	return &InMemoryUserStorage{
 		lock:    sync.RWMutex{},
@@ -100,4 +104,9 @@ func (userStorage InMemoryUserStorage) Get(key string) (User, error) {
 	err := errors.New("there is no such user")
 	empty := User{}
 	return empty, err
+}
+
+func (userStorage InMemoryUserStorage) Update(key string, u User) error {
+	userStorage.storage[key] = u
+	return nil
 }

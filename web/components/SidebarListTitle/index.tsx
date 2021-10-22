@@ -1,5 +1,7 @@
 import React from 'react'
 import classNames from 'classnames';
+import { deleteLists } from 'helpers/axiosRequests';
+import { useRouter } from 'next/dist/client/router';
 
 interface SidebarListTitleProps {
     title: string;
@@ -13,9 +15,9 @@ export const SidebarListTitle: React.FC<SidebarListTitleProps> = (
         id,
         isSelected
     }: SidebarListTitleProps): JSX.Element => {
-
+    const router = useRouter();
     const handleDeletionOfList = React.useCallback(() => {
-        console.log('Deleted list:', id);
+        deleteLists(id, router)
     }, []);
 
     return (

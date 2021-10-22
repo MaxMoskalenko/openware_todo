@@ -4,19 +4,19 @@ import classNames from 'classnames';
 import data from 'data'
 import { NewListInput } from 'components/NewListInput'
 import { SidebarListTitle } from 'components/SidebarListTitle'
+import { instance as axios } from 'helpers/axios';
 
+interface SidebarProps {
+    lists: any
+}
 
-export const Sidebar: React.FC<{}> = (): JSX.Element => {
+export const Sidebar: React.FC<SidebarProps> = ({lists} : SidebarProps): JSX.Element => {        
     const router = useRouter();
     const [isWrapped, setIsWrapped] = React.useState<boolean>(false);
-    const [lists, setLists] = React.useState([]);
-
-    React.useEffect(() => {
-              setLists(JSON.parse(localStorage.lists));
-    }, [])
+ 
 
     const renderExistedLists = React.useMemo(() => {
-        return lists?.map((list) => {
+        return lists.map((list: any) => {
             return <SidebarListTitle title={list.Name} id={list.Id} isSelected={data.selectedList?.id == list.id} key={`list-titile-${list.Id}`} />
         });
     }, [lists]);

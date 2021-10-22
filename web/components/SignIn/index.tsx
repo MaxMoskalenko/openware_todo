@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import { useRouter } from 'next/dist/client/router'
 import 'axios'
-import { instance as axios } from 'helpers/axios'
+import { postSignin } from 'helpers/axiosRequests'
 
 export const SignIn: FC<{}> = (): JSX.Element => {
     const router = useRouter();
@@ -10,22 +10,16 @@ export const SignIn: FC<{}> = (): JSX.Element => {
     const [password, setPassword] = useState<string>('');
 
     const handleSiginClick = React.useCallback(() => {
-        axios().post(
-            '/user/signin',
-            { email: email, password: password }
-        )
-            .then((r: any) => {        
-                //TODO do not use localStorage!!!
-                localStorage.setItem('token', r.data);
-                router.push('/lists');
-            })
-            .catch((e: any) => {
-                if (e.response)
-                    alert(e.response.data)
-                else
-                    console.log(e);
-            })
+        postSignin(email, password,router)
     }, [email, password])
+
+    React.useEffect(() => {
+        //TODO remove it
+        if (localStorage.token && localStorage.token != ''){
+            router.push('/lists')
+        }
+    }, [])
+
     return (
         <div className="w-1/4 bg-white z-20 m-auto shadow-md flex flex-col p-10">
             <div className="flex">

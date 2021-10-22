@@ -63,7 +63,7 @@ func (u *UserService) JWT(w http.ResponseWriter, r *http.Request, jwtService *JW
 	log.Print("User " + params.Email + " entered")
 }
 
-type ProtectedHandler func(rw http.ResponseWriter, r *http.Request, u User)
+type ProtectedHandler func(rw http.ResponseWriter, r *http.Request, u *User)
 
 func (j *JWTService) JwtAuth(users UserRepository, h ProtectedHandler) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
@@ -86,6 +86,7 @@ func (j *JWTService) JwtAuth(users UserRepository, h ProtectedHandler) http.Hand
 			return
 		}
 
-		h(rw, r, user)
+		h(rw, r, &user)
+		users.Update(user.Email, user)
 	}
 }
