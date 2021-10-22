@@ -6,7 +6,7 @@ import { useRouter } from 'next/dist/client/router'
 const Home: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
-    router.push('/lists');
+    router.push('/signin');
   }, [])
   return (
     <div>

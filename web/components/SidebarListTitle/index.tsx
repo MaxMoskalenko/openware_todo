@@ -1,5 +1,7 @@
 import React from 'react'
 import classNames from 'classnames';
+import { deleteLists, getTasks } from 'helpers/axiosRequests';
+import { useRouter } from 'next/dist/client/router';
 
 interface SidebarListTitleProps {
     title: string;
@@ -13,10 +15,20 @@ export const SidebarListTitle: React.FC<SidebarListTitleProps> = (
         id,
         isSelected
     }: SidebarListTitleProps): JSX.Element => {
+    const router = useRouter();
 
     const handleDeletionOfList = React.useCallback(() => {
-        console.log('Deleted list:', id);
-    }, []);
+        if(isSelected){            
+            localStorage.setItem('selectedListId', String(-1));
+        }
+        deleteLists(id, router);
+    }, [isSelected]);
+
+    const handleSelection = React.useCallback(() => {        
+        localStorage.setItem('selectedListId', String(id));
+        getTasks(id, router);
+        window.dispatchEvent( new Event('storage') );
+    }, [])
 
     return (
         <div className={classNames("w-full flex mt-4", { "bg-yellow-200": isSelected })}>
@@ -25,7 +37,7 @@ export const SidebarListTitle: React.FC<SidebarListTitleProps> = (
                 alt="List icon"
                 className="ml-2 mr-4 w-5"
             />
-            <span className="w-10/12">{title}</span>
+            <span className="w-10/12 cursor-pointer" onClick={handleSelection}>{title}</span>
             <img
                 src="/icons/trash.svg"
                 alt="Trash icon"
