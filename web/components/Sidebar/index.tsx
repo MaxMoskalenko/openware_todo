@@ -1,25 +1,22 @@
 import React from 'react'
-import { useRouter } from 'next/dist/client/router'
 import classNames from 'classnames';
-import data from 'data'
 import { NewListInput } from 'components/NewListInput'
 import { SidebarListTitle } from 'components/SidebarListTitle'
-import { instance as axios } from 'helpers/axios';
 
 interface SidebarProps {
-    lists: any
+    lists: any;
+    selectedId: number;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({lists} : SidebarProps): JSX.Element => {        
-    const router = useRouter();
+export const Sidebar: React.FC<SidebarProps> = ({ lists, selectedId }: SidebarProps): JSX.Element => {    
     const [isWrapped, setIsWrapped] = React.useState<boolean>(false);
- 
 
-    const renderExistedLists = React.useMemo(() => {
+
+    const renderExistedLists = React.useMemo(() => {        
         return lists.map((list: any) => {
-            return <SidebarListTitle title={list.Name} id={list.Id} isSelected={data.selectedList?.id == list.id} key={`list-titile-${list.Id}`} />
+            return <SidebarListTitle title={list.Name} id={list.Id} isSelected={selectedId == list.Id} key={`list-titile-${list.Id}`} />
         });
-    }, [lists]);
+    }, [lists, selectedId]);
 
     return (
         <div className={classNames("h-screen bg-yellow-300", { "w-2/12": !isWrapped, "w-1/36": isWrapped })}>
@@ -31,7 +28,6 @@ export const Sidebar: React.FC<SidebarProps> = ({lists} : SidebarProps): JSX.Ele
                         <img src="/icons/arrow-left.svg" alt="Close Sidebar" className="w-6 mt-4 ml-2 cursor-pointer" onClick={() => setIsWrapped(true)} />
                         {renderExistedLists}
                         <NewListInput />
-
                     </div>
                     <div className="absolute bottom-0 m-4">
 

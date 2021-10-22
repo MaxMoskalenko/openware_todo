@@ -17,13 +17,6 @@ export const SignUp: FC<{}> = (): JSX.Element => {
         postSignup(email, password, router);
     }, [email, password, confirmPassword]);
 
-    React.useEffect(() => {
-        //TODO remove it
-        if (localStorage.token && localStorage.token != ''){
-            router.push('/lists')
-        }
-    }, [])
-
     return (
         <div className="h-1/3 w-1/4 bg-white z-20 m-auto shadow-md flex flex-col p-10">
             <div className="flex">

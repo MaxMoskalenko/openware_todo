@@ -29,6 +29,10 @@ func main() {
 	r.HandleFunc("/user/lists", jwtService.JwtAuth(userService.Repository, services.HandleAddingLists)).Methods("POST", "OPTIONS")
 	r.HandleFunc("/user/lists/{list_id}", jwtService.JwtAuth(userService.Repository, services.HandleUpdatingList)).Methods("PUT", "OPTIONS")
 	r.HandleFunc("/user/lists/{list_id}", jwtService.JwtAuth(userService.Repository, services.HandleDeletingList)).Methods("DELETE", "OPTIONS")
+	r.HandleFunc("/user/lists/{list_id}/tasks", jwtService.JwtAuth(userService.Repository, services.HandleGettingTasks)).Methods("GET", "OPTIONS")
+	r.HandleFunc("/user/lists/{list_id}/tasks", jwtService.JwtAuth(userService.Repository, services.HandleAddingTasks)).Methods("POST", "OPTIONS")
+	r.HandleFunc("/user/lists/{list_id}/tasks/{task_id}", jwtService.JwtAuth(userService.Repository, services.HandleUpdatingTask)).Methods("PUT", "OPTIONS")
+	r.HandleFunc("/user/lists/{list_id}/tasks/{task_id}", jwtService.JwtAuth(userService.Repository, services.HandleDeletingTask)).Methods("DELETE", "OPTIONS")
 
 	srv := http.Server{
 		Addr:    ":9001",

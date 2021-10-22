@@ -13,13 +13,6 @@ export const SignIn: FC<{}> = (): JSX.Element => {
         postSignin(email, password,router)
     }, [email, password])
 
-    React.useEffect(() => {
-        //TODO remove it
-        if (localStorage.token && localStorage.token != ''){
-            router.push('/lists')
-        }
-    }, [])
-
     return (
         <div className="w-1/4 bg-white z-20 m-auto shadow-md flex flex-col p-10">
             <div className="flex">
